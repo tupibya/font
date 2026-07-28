@@ -2,61 +2,120 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>フォント配布</title>
+<title>フォント配布ページ</title>
 <style>
   body {
     font-family: Inter, sans-serif;
-    padding: 20px;
+    background: #111;
+    color: #eee;
+    padding: 40px;
   }
+
+  h1 {
+    margin-bottom: 24px;
+  }
+
+  .grid {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+
   .card {
-    background: #222;
-    color: #fff;
+    background: #1e1e1e;
     padding: 20px;
-    border-radius: 12px;
-    width: 320px;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   }
-  button {
+
+  .card h2 {
+    margin: 0 0 10px;
+    font-size: 20px;
+  }
+
+  .btn {
+    display: inline-block;
     margin-top: 10px;
     padding: 10px 14px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
+    font-size: 14px;
   }
+
   .download-btn {
     background: #4caf50;
     color: #fff;
   }
+
   .copy-btn {
     background: #2196f3;
     color: #fff;
+    margin-left: 6px;
   }
 </style>
 </head>
 <body>
 
-<div class="card">
-  <h2>けいふぉんと</h2>
-  <p>手書き風フォント(.ttf)</p>
+<h1>フォント一覧</h1>
 
-  <!-- ▼ ダウンロードボタン -->
-  <a href="fonts/keifont.ttf" download="keifont.ttf">
-    <button class="download-btn">フォントをダウンロード</button>
-  </a>
-
-  <!-- ▼ URLコピー -->
-  <button class="copy-btn" id="copyUrlBtn">URLをコピー</button>
-</div>
+<div class="grid" id="fontList"></div>
 
 <script>
-  const fontUrl = location.origin + "/fonts/keifont.ttf";
+  // ▼ 複数フォントをまとめて管理
+  const fonts = [
+    {
+      name: "けいふぉんと(.ttf)",
+      file: "https://tupibya.github.io/font/ttf/keifont.ttf"
+    },
+    {
+      name: "音節(.ttf)",
+      file: "https://tupibya.github.io/font/ttf/akshar.ttf"
+    },
+    {
+      name: "けいふぉんと(.woff)",
+      file: "https://tupibya.github.io/font/woff/keifont.woff"
+    },
+    {
+      name: "音節(.woff)",
+      file: "https://tupibya.github.io/font/woff/akshar.woff"
+  ];
 
-  document.getElementById("copyUrlBtn").addEventListener("click", async () => {
-    try {
-      await navigator.clipboard.writeText(fontUrl);
-      alert("URLをコピーしました！");
-    } catch (e) {
-      console.error(e);
-      alert("コピーに失敗しました");
+  const container = document.getElementById("fontList");
+
+  // ▼ カードを自動生成
+  fonts.forEach(font => {
+    const url = location.origin + "/" + font.file;
+
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+      <h2>${font.name}</h2>
+      <p>${font.file}</p>
+
+      <a href="${font.file}" download="${font.name}.ttf">
+        <button class="btn download-btn">ダウンロード</button>
+      </a>
+
+      <button class="btn copy-btn" data-url="${url}">
+        URLコピー
+      </button>
+    `;
+
+    container.appendChild(card);
+  });
+
+  // ▼ URLコピー処理（全カード共通）
+  document.addEventListener("click", async (e) => {
+    if (e.target.matches(".copy-btn")) {
+      const url = e.target.dataset.url;
+      try {
+        await navigator.clipboard.writeText(url);
+        alert("URLをコピーしました！");
+      } catch (err) {
+        alert("コピーに失敗しました");
+      }
     }
   });
 </script>
