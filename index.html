@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>フォント配布</title>
+<style>
+  body {
+    font-family: Inter, sans-serif;
+    padding: 20px;
+  }
+  .card {
+    background: #222;
+    color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    width: 320px;
+  }
+  button {
+    margin-top: 10px;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .download-btn {
+    background: #4caf50;
+    color: #fff;
+  }
+  .copy-btn {
+    background: #2196f3;
+    color: #fff;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h2>けいふぉんと</h2>
+  <p>手書き風フォント(.ttf)</p>
+
+  <!-- ▼ ダウンロードボタン -->
+  <a href="fonts/keifont.ttf" download="keifont.ttf">
+    <button class="download-btn">フォントをダウンロード</button>
+  </a>
+
+  <!-- ▼ URLコピー -->
+  <button class="copy-btn" id="copyUrlBtn">URLをコピー</button>
+</div>
+
+<script>
+  const fontUrl = location.origin + "/fonts/keifont.ttf";
+
+  document.getElementById("copyUrlBtn").addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(fontUrl);
+      alert("URLをコピーしました！");
+    } catch (e) {
+      console.error(e);
+      alert("コピーに失敗しました");
+    }
+  });
+</script>
+
+</body>
+</html>
