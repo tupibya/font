@@ -107,7 +107,7 @@
 
   // ▼ カードを自動生成
   fonts.forEach(font => {
-    const url = location.origin + "/" + font.file;
+    const url = "https://tupibya.github.io/" + font.file;
 
     const card = document.createElement("div");
     card.className = "card";
@@ -115,7 +115,7 @@
     card.innerHTML = `
       <h2>${font.name}</h2>
 
-      <a href="${font.file}">
+      <a href="https://tupibya.github.io/${font.file}">
         <button class="btn download-btn">ダウンロード</button>
       </a>
 
